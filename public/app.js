@@ -27,7 +27,13 @@ bellbird.config(function(
 
 });
 
-bellbird.controller('home', function($scope, $stateParams, $timeout, API) {
+bellbird.controller('home', function(
+  $element,
+  $interval,
+  $scope,
+  $timeout,
+  API
+) {
 
   $scope.loading = true;
   API.call('GET', '/alarms').then(function(data) {
@@ -50,7 +56,7 @@ bellbird.controller('home', function($scope, $stateParams, $timeout, API) {
     $scope.newAlarm = {alarm: ''};
     var body = {alarm: alarm};
     API.call('POST', '/alarms', body).then(function(data) {
-      console.log('success', data.data);
+      $scope.alarms.unshift(data.data.data);
     }).catch(function(err) {
       console.log('error', err);
     });
@@ -61,17 +67,16 @@ bellbird.controller('home', function($scope, $stateParams, $timeout, API) {
     API.call('POST', '/upvotes', {alarmID: alarm.id});
   };
 
-});
-
-bellbird.service('API', function($http) {
-
-  function call(method, url, data) {
-    return $http({method: method, url: '/api' + url, data: data});
-  }
-
-  return {
-    call: call
-  };
+  // poll requests to retrieve new alarms
+  $interval(function() {
+    API.call('GET', '/alarms?greater=' + $scope.alarms[0].id).then(
+      function(newAlarms) {
+        if (newAlarms.data.data.length > 0) {
+          $scope.alarms = newAlarms.data.data.concat($scope.alarms);
+        }
+      }
+    );
+  }, 3000);
 
 });
 
@@ -89,3 +94,15 @@ bellbird.filter('timeago', function() {
     return moment(input).fromNow();
   };
 })
+
+bellbird.service('API', function($http) {
+
+  function call(method, url, data) {
+    return $http({method: method, url: '/api' + url, data: data});
+  }
+
+  return {
+    call: call
+  };
+
+});

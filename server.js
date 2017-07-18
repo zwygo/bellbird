@@ -8,22 +8,69 @@ app.use(express.static(__dirname + '/public'));
 const bodyParser = require('body-parser')
 app.use(bodyParser.json());
 
-app.use('/api', function(req, res, next) {
-  console.log(req.headers);
-  if (req.headers['x-token']) {
-    next();
-    return;
-  }
-
-  next();
-  // res.sendStatus(401);
+app.get('/api/alarms', function(req, res, next) {
+ db.getAllAlarms(req.query.greater).then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Retrieved all alarms'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
 });
 
-app.get('/api/alarms', db.getAllAlarms);
+const http = require('http');
+app.post('/api/alarms', function(req, res, next){
+  db.createAlarm(req.body.alarm).then(function (data) {
+    data.count = 0;
+    data.id = parseInt(data.id);
 
-app.post('/api/alarms', db.createAlarm);
+    // alarm was successfully created, push notification to phones
+    var options = {
+      hostname: 'handshake-bellbird.herokuapp.com',
+      path: '/push',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
+    console.log('going to make request');
+    var notification = http.request(options, function(res, r, r2) {
+      console.log(res.statusCode, res.headers);
+    });
+    notification.write('{"alarm_id": 12}');
+    notification.end();
 
-app.post('/api/upvotes', db.createUpvote);
+
+    console.log('sending response');
+    res.status(200)
+      .json({
+        status: 'success',
+        data: data,
+        message: 'Created alarm'
+      });
+  })
+  .catch(function (err) {
+    return next(err);
+  });
+});
+
+app.post('/api/upvotes', function(req, res, next) {
+  db.createUpvote(req.body.alarmID).then(function (data) {
+      res.status(200)
+        .json({
+          status: 'success',
+          data: data,
+          message: 'Created upvote'
+        });
+    })
+    .catch(function (err) {
+      return next(err);
+    });
+});
 
 app.get('*', function (req, res) {
   res.sendFile(__dirname + '/public/index.html');
