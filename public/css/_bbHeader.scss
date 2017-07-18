@@ -1,0 +1,14 @@
+.bb-header {
+  background-color: $bb-blue;
+  height: 100%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  .content {
+    width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+}

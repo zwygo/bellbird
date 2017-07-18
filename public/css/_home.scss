@@ -1,0 +1,149 @@
+.home {
+  width: 600px;
+  margin: 10px auto;
+
+  .create-alarm {
+    border-radius: 5px;
+    background-color: #E8F5FD;
+    padding: 20px;
+    margin-bottom: 10px;
+    .create-header {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    textarea {
+      padding: 10px;
+      font-size: 14px;
+      width: 100%;
+      resize: none;
+      border: none;
+      text-transform: uppercase;
+    }
+    .submit-button {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 12px;
+      background-color: white;
+      border-radius: 3px;
+      display: inline-block;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      user-select: none;
+      &:hover {
+        background-color: darken(white, 2%);
+      }
+      &:active {
+        background-color: darken(white, 5%);
+      }
+    }
+  }
+
+  .alarm {
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 1px 1px 0px rgba(0, 0, 0, .2);
+    padding: 20px;
+    background-color: white;
+    .alarm-text {
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .bottom {
+      display: flex;
+      justify-content: space-between;
+      color: #ccc;
+      font-size: 12px;
+      .upvotes {
+        i {
+          cursor: pointer;
+          border: solid #ccc;
+          border-width: 0 3px 3px 0;
+          display: inline-block;
+          padding: 3px;
+          margin-right: 5px;
+          position: relative;
+          top: 1px;
+          transform: rotate(-135deg);
+          &:hover {
+            border-color: #bbb;
+          }
+        }
+      }
+    }
+  }
+
+  .loader {
+    .spinner {
+      margin: 100px auto;
+      width: 50px;
+      height: 40px;
+      text-align: center;
+      font-size: 10px;
+    }
+
+    .spinner > div {
+      background-color: #333;
+      height: 100%;
+      width: 6px;
+      display: inline-block;
+
+      -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+      animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    }
+
+    .spinner .rect2 {
+      -webkit-animation-delay: -1.1s;
+      animation-delay: -1.1s;
+    }
+
+    .spinner .rect3 {
+      -webkit-animation-delay: -1.0s;
+      animation-delay: -1.0s;
+    }
+
+    .spinner .rect4 {
+      -webkit-animation-delay: -0.9s;
+      animation-delay: -0.9s;
+    }
+
+    .spinner .rect5 {
+      -webkit-animation-delay: -0.8s;
+      animation-delay: -0.8s;
+    }
+
+    @-webkit-keyframes sk-stretchdelay {
+      0%, 40%, 100% { -webkit-transform: scaleY(0.4) }
+      20% { -webkit-transform: scaleY(1.0) }
+    }
+
+    @keyframes sk-stretchdelay {
+      0%, 40%, 100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+      }  20% {
+        transform: scaleY(1.0);
+        -webkit-transform: scaleY(1.0);
+      }
+    }
+  }
+  .games {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: red;
+    &.ng-enter {
+      transition: opacity 0.2s;
+      opacity: 0;
+      &.ng-enter-active {
+        opacity: 1;
+      }
+    }
+    .game {
+      flex: 0 0 32%;
+      height: 100px;
+      background: blue;
+      border-radius: 6px;
+      margin: 10px 0;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+@import 'reset';
+
+$bb-blue: #1DA1F2;
+
+body {
+  font-family: 'Roboto';
+  background-color: #E5EBEF;
+
+  bb-header {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+  }
+
+  .main-view {
+    position: relative;
+    top: 40px;
+  }
+}
+
+@import 'bbHeader';
+@import 'home';

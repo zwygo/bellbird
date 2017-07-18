@@ -1,0 +1,28 @@
+<div class="home">
+  <div class="create-alarm">
+    <div class="create-header">Create a new alarm</div>
+    <textarea rows="4" ng-model="newAlarm.alarm" placeholder="Your alarm in ALL CAPS"></textarea>
+    <div class="submit-button" ng-click="soundAlarm()">SOUND THE ALARM!</div>
+  </div>
+  <div class="loader" ng-if="loading">
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>
+  <div class="alarms" ng-if="!loading">
+    <div ng-repeat="alarm in alarms" class="alarm">
+      <div class="alarm-text">{{alarm.alarm}}</div>
+      <div class="bottom">
+        <div class="created">{{alarm.created_at | timeago}}</div>
+        <div class="upvotes">
+          <i class="arrow up" ng-click="upvote(alarm)"></i>
+          <span>{{alarm.count}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
